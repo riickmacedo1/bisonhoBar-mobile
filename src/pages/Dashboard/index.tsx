@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -12,9 +12,13 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamsList } from "../../routes/app.routes";
 
+import { AuthContext } from "../../contexts/AuthContext";
+import Icon from "react-native-vector-icons/AntDesign";
+
 import { api } from "../../services/api";
 
 export default function Dashboard() {
+  const { signOut } = useContext(AuthContext);
   const navigation =
     useNavigation<NativeStackNavigationProp<StackParamsList>>();
   const [number, setNumber] = useState("");
@@ -38,6 +42,11 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
+      <View>
+        <TouchableOpacity style={styles.iconLogout} onPress={signOut}>
+          <Icon name="logout" size={30} color="#f82432" />
+        </TouchableOpacity>
+      </View>
       <Text style={styles.title}>Faça um novo pedido</Text>
 
       <TextInput
@@ -64,6 +73,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 15,
     backgroundColor: "#000",
+  },
+  iconLogout: {
+    position: "absolute",
+    marginLeft: 155,
   },
   title: {
     fontSize: 28,
